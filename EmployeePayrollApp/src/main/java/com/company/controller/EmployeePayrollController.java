@@ -26,7 +26,6 @@ public class EmployeePayrollController {
 	@Autowired
 	private IEmployeePayrollService employeePayrollService;
 
-	//curl localhost:8080/employeepayrollservice/ -w "\n"
 	@RequestMapping(value = { "", "/", "get" })
 	public ResponseEntity<ResponseDTO> getEmployeePayrollData() {
 		List<EmployeePayrollData> payrollData = null;
@@ -35,7 +34,8 @@ public class EmployeePayrollController {
 		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
 	}
 	
-    //curl localhost:8080/employeepayrollservice/get/1 -w "\n"
+	// curl localhost:8080/employeepayrollservice/get/1 -w "\n"
+
 	@GetMapping("/get/{empId}")
 	public ResponseEntity<ResponseDTO> getEmployeePayrollData(@PathVariable("empId") int empId) {
 		EmployeePayrollData payrollData = null;
@@ -44,7 +44,7 @@ public class EmployeePayrollController {
 		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
 	}
 
-	//curl -X DELETE -H "Content-Type: application/json" localhost:8080/employeepayrollservice/delete/1 -w "\n"
+	//curl -X POST -H "Content-Type: application/json" -d '{"name": "Lisa","salary":2000}' "http://localhost:8080/employeepayrollservice/create" -w "\n"
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> createEmployeePayrollData(@RequestBody EmployeePayrollDTO employeePayrollDTO) {
 		EmployeePayrollData payrollData = null;
@@ -52,16 +52,17 @@ public class EmployeePayrollController {
 		ResponseDTO responseDTO = new ResponseDTO("Created Employee payroll data for:", payrollData);
 		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
 	}
-	
-	//curl -X PUT -H "Content-Type: application/json" -d '{"name": "Lisa","salary": 2000}' "http://localhost:8080/employeepayrollservice/update" -w "\n"
-	@PutMapping("/update")
-	public ResponseEntity<ResponseDTO> updateEmployeePayrollData(@RequestBody EmployeePayrollDTO employeePayrollDTO) {
-		EmployeePayrollData payrollData = null;
-		payrollData = employeePayrollService.updateEmployeePayrollData(employeePayrollDTO);
-		ResponseDTO responseDTO = new ResponseDTO("Updated Employee payroll Data for: ", payrollData);
+
+	// curl -X PUT -H "Content-Type: application/json" -d '{"name": "bhushan","salary": 21000}' "http://localhost:8080/employeepayrollservice/update/1" -w "\n"
+	@PutMapping("/update/{empId}")
+	public ResponseEntity<ResponseDTO> updateEmployeePayrollData(@PathVariable("empId") int empId,
+			@RequestBody EmployeePayrollDTO employeePayrollDTO) {
+		EmployeePayrollData updateEmployeePayrollData = null;
+		updateEmployeePayrollData = employeePayrollService.updateEmployeePayrollData(empId, employeePayrollDTO);
+		ResponseDTO responseDTO = new ResponseDTO("Updated Employee payroll Data for: ", updateEmployeePayrollData);
 		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
 	}
-	
+
 	//curl -X DELETE -H "Content-Type: application/json" localhost:8080/employeepayrollservice/delete/1 -w "\n"
 	@DeleteMapping("/delete/{empId}")
 	public ResponseEntity<ResponseDTO> deleteEmployeePayrollData(@PathVariable("empId") int empId) {
