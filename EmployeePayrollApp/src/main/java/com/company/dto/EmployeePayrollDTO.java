@@ -1,9 +1,12 @@
 package com.company.dto;
 
+import javax.validation.constraints.Pattern;
+
 import lombok.Data;
 
 public @Data class EmployeePayrollDTO {
-
+	
+	@Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$", message = "Employee name Invalid")
 	public String name;
 	public long salary;
 
