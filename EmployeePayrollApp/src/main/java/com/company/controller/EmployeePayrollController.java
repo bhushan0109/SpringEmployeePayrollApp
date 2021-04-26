@@ -77,5 +77,13 @@ public class EmployeePayrollController {
 		ResponseDTO responseDTO = new ResponseDTO("Delete Call Success for id: ", "empId " + empId);
 		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
 	}
+	
+	//localhost:8080/employeepayrollservice/department/HR
+	@GetMapping("/department/{department}")
+	public ResponseEntity<ResponseDTO> getEmployeesByDepartment(@PathVariable("department") String department) {
+		List<EmployeePayrollData> employeesByDepartment = employeePayrollService.getEmployeesByDepartment(department);
+		ResponseDTO responseDTO = new ResponseDTO("Get call for the department success ", employeesByDepartment);
+		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
+	}
 
 }
