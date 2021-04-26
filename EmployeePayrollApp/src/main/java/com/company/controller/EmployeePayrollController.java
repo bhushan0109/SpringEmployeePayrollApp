@@ -21,8 +21,11 @@ import com.company.dto.ResponseDTO;
 import com.company.model.EmployeePayrollData;
 import com.company.service.IEmployeePayrollService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/employeepayrollservice")
+ @Slf4j
 public class EmployeePayrollController {
 
 	@Autowired
@@ -49,6 +52,7 @@ public class EmployeePayrollController {
 	//curl -X POST -H "Content-Type: application/json" -d '{"name": "Lisa","salary":2000}' "http://localhost:8080/employeepayrollservice/create" -w "\n"
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> createEmployeePayrollData(@Valid @RequestBody EmployeePayrollDTO employeePayrollDTO) {
+		log.debug("Employee payroll dto "+employeePayrollDTO.toString());
 		EmployeePayrollData payrollData = null;
 		payrollData = employeePayrollService.createEmployeePayrollData(employeePayrollDTO);
 		ResponseDTO responseDTO = new ResponseDTO("Created Employee payroll data for:", payrollData);
